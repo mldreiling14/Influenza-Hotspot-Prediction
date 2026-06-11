@@ -1,0 +1,2 @@
+validation_type,hotspot_definition,auc
+80/20 train-test split,Top 20%,0.8981900452488688
