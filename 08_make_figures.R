@@ -1,4 +1,6 @@
-library(tidyverse)
+suppressPackageStartupMessages({
+  library(tidyverse)
+})
 
 dir.create("figures", showWarnings = FALSE)
 

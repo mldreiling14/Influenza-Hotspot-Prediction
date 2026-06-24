@@ -1,7 +1,9 @@
-library(tidyverse)
-library(MASS)
-library(broom)
-library(car)
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(MASS)
+  library(broom)
+  library(car)
+})
 
 data <- read_csv("derived_data/final_analysis_dataset.csv", show_col_types = FALSE) |>
   clean_names()

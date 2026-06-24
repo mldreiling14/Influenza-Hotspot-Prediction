@@ -1,5 +1,7 @@
-library(tidyverse)
-library(broom)
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(broom)
+})
 
 data <- read_csv("derived_data/analysis_data_clean.csv", show_col_types = FALSE)
 

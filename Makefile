@@ -1,10 +1,15 @@
-.PHONY: all clean dirs data exploratory model predictions hotspots roc validation figures run
+.PHONY: all clean dirs data exploratory model predictions hotspots roc validation figures run install packages setup
 
 R = Rscript
 
 all: dirs data exploratory model predictions hotspots roc validation figures
 
 run: all
+
+setup: install dirs
+
+install packages: 00_install_packages.R
+	$(R) 00_install_packages.R
 
 dirs:
 	mkdir -p derived_data figures
