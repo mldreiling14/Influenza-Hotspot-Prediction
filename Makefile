@@ -19,7 +19,7 @@ data: derived_data/final_analysis_dataset.csv derived_data/analysis_data_clean.c
 derived_data/final_analysis_dataset.csv derived_data/analysis_data_clean.csv derived_data/missing_data_summary.csv &: 01_final_analysis_dataset.R | dirs
 	$(R) 01_final_analysis_dataset.R
 
-exploratory: derived_data/exploratory_hotspot_tests.csv
+hotspots: derived_data/hotspot_results.csv
 
 derived_data/exploratory_hotspot_tests.csv: 02_exploratory_hotspot_tests.R derived_data/analysis_data_clean.csv | dirs
 	$(R) 02_exploratory_hotspot_tests.R
@@ -29,12 +29,21 @@ model: derived_data/final_nb_model.rds derived_data/data_final_unscaled.csv deri
 derived_data/final_nb_model.rds derived_data/data_final_unscaled.csv derived_data/data_final_scaled.csv derived_data/final_model_coefficients.csv derived_data/final_model_vif.csv &: 03_final_negative_binomial_model.R derived_data/final_analysis_dataset.csv | dirs
 	$(R) 03_final_negative_binomial_model.R
 
-predictions: derived_data/predictions.csv
+derived_data:
+	mkdir -p derived_data
 
 derived_data/predictions.csv: 04_generate_predictions.R derived_data/final_nb_model.rds derived_data/data_final_scaled.csv derived_data/data_final_unscaled.csv | dirs
 	$(R) 04_generate_predictions.R
 
-hotspots: derived_data/hotspot_results.csv
+derived_data/final_analysis_dataset.csv \
+derived_data/analysis_data_clean.csv \
+derived_data/missing_data_summary.csv &: 01_final_analysis_dataset.R \
+	 source_data/Influenza_Laboratory-Confirmed_Cases_by_County__Beginning_2009-10_Season_20260107.xlsx \
+	 source_data/weather_data.csv \
+	 source_data/seasonal_weather.csv \
+	 source_data/NY_GDP_Data.csv \
+	 $(wildcard source_data/analytic_data*.csv) | derived_data
+	$(RSCRIPT) 01_final_analysis_dataset.R
 
 derived_data/hotspot_results.csv: 05_hotspot_classification.R derived_data/predictions.csv | dirs
 	$(R) 05_hotspot_classification.R
@@ -49,7 +58,10 @@ validation: derived_data/train_test_validation_auc.csv derived_data/test_set_pre
 derived_data/train_test_validation_auc.csv derived_data/test_set_predictions.csv &: 07_train_test_validation.R derived_data/data_final_unscaled.csv | dirs
 	$(R) 07_train_test_validation.R
 
-figures: figures/observed_vs_predicted.png figures/top_predicted_hotspot_counties.png
+derived_data/train_test_validation_auc.csv \
+derived_data/test_set_predictions.csv &: 07_train_test_validation.R \
+	 derived_data/data_final_unscaled.csv | derived_data
+	$(RSCRIPT) 07_train_test_validation.R
 
 figures/observed_vs_predicted.png figures/top_predicted_hotspot_counties.png &: 08_make_figures.R derived_data/hotspot_results.csv | dirs
 	$(R) 08_make_figures.R
