@@ -1,4 +1,6 @@
-library(tidyverse)
+suppressPackageStartupMessages({
+  library(tidyverse)
+})
 
 predictions <- read_csv("derived_data/predictions.csv", show_col_types = FALSE)
 

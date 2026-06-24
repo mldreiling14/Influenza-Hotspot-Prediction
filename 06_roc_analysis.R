@@ -1,5 +1,7 @@
-library(tidyverse)
-library(pROC)
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(pROC)
+})
 
 dir.create("figures", showWarnings = FALSE)
 

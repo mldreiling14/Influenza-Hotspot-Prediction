@@ -1,4 +1,6 @@
-library(tidyverse)
+suppressPackageStartupMessages({
+  library(tidyverse)
+})
 
 model <- readRDS("derived_data/final_nb_model.rds")
 
