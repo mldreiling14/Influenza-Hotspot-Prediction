@@ -1,6 +1,8 @@
-library(tidyverse)
-library(MASS)
-library(pROC)
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(MASS)
+  library(pROC)
+})
 
 set.seed(123)
 
